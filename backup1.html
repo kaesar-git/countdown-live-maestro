@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Go-Live Maestro</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 30px;
+      box-sizing: border-box;
+    }
+    .logo {
+	  width: 100px;
+	  height: auto;
+	  object-fit: contain;
+	}
+
+    .top-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+	  margin-top: -15px;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+	  margin-top: -100px;
+    }
+    .countdown {
+      font-size: 36px;
+      font-weight: bold;
+      margin-top: 20px;
+	  margin-top: -20px;
+    }
+    .footer {
+      text-align: center;
+      font-size: 18px;
+    }
+	.background {
+	  position: absolute;
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover;
+	  z-index: 0;
+	  transition: opacity 1s ease-in-out;
+	}
+	#bg2 {
+	  position: absolute;
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover;
+	  z-index: 0;
+	  opacity: 0;
+	}
+	.days {
+	  font-size: 64px;
+	  font-weight: bold;
+	  margin-bottom: 10px;
+	}
+
+	.time {
+	  font-size: 28px;
+	  font-weight: bold;
+	}
+	.countdown-wrapper {
+  text-align: center;
+  margin-top: -20px;
+	}
+	.hari {
+	  font-family: 'Orbitron', monospace;
+	  font-size: 80px;
+	  font-weight: bold;
+	  margin-bottom: 10px;
+	}
+
+	.jam-menit-detik {
+	  font-family: 'Orbitron', monospace;
+	  font-size: 36px;
+	}
+  </style>
+</head>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<body>
+<div class="container">
+  <img class="background" id="bg1" src="img1.jpg">
+  <img class="background" id="bg2" src="img2.jpg">
+
+  <div class="overlay">
+    <div class="top-bar">
+      <img class="logo" src="logo1.png">
+      <img class="logo" src="logo2.png">
+    </div>
+    <div class="title">
+      COUNTDOWN MENUJU GO-LIVE MAESTRO
+    </div>
+	<div class="countdown">
+	  <div id="days" class="days"></div>
+	  <div id="time" class="time"></div>
+	</div>
+
+    <div class="footer">
+      Langkah kecil hari ini, keberhasilan di masa depan.<br>
+      <b>#JUSTDOIT #MAKEITHAPPEN</b>
+    </div>
+  </div>
+</div>
+
+<script>
+  const targetDate = new Date("2025-08-17T00:00:00").getTime();
+  const countdownEl = document.getElementById("countdown");
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+	document.getElementById("days").innerHTML = `${days} HARI`;
+	document.getElementById("time").innerHTML = `${hours} JAM ${minutes} MENIT ${seconds} DETIK`;
+
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // Slideshow dengan transisi
+  const images = ["img1.jpg", "img2.jpg", "img3.jpg"];
+  let current = 0;
+
+  const bg1 = document.getElementById("bg1");
+  const bg2 = document.getElementById("bg2");
+
+  function fadeToNextImage() {
+    const next = (current + 1) % images.length;
+    bg2.src = images[next];
+    bg2.style.opacity = 1;
+
+    setTimeout(() => {
+      bg1.src = images[next];
+      bg2.style.opacity = 0;
+      current = next;
+    }, 1000); // sesuai waktu transisi CSS
+  }
+
+  setInterval(fadeToNextImage, 30000); // ganti tiap 10 detik
+</script>
+</body>
+</html>
