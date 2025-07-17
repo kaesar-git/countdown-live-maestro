@@ -87,27 +87,32 @@
       gap: 2vh;
       margin-top: 1vh;
     }
-    .day-large-box {
-      background-color: #FFD700;
-      border-radius: 10px;
-      padding: 2vh 4vw;
-      text-align: center;
-      min-width: 40vw;
-    }
-    .day-number {
-      font-family: 'Digital7', monospace;
-      font-size: 10vw;
-      font-weight: bold;
-      color: black;
-      line-height: 1;
-    }
-    .day-label {
-      font-family: Arial, sans-serif;
-      font-size: 3vw;
-      font-weight: bold;
-      color: black;
-      margin-top: 1vh;
-    }
+	.day-large-box {
+	  background-color: #FFD700;
+	  border-radius: 20px;
+	  padding: 3vh 5vw;
+	  text-align: center;
+	  width: 50vw;       /* ubah dari min-width jadi width */
+	  height: 25vh;      /* tambahkan tinggi agar kotak membesar */
+	  display: flex;     /* ini penting agar label dan angka bisa dirapikan */
+	  flex-direction: column;
+	  justify-content: center;
+	  align-items: center;
+	}
+	.day-number {
+	  font-family: 'Digital7', monospace;
+	  font-size: 30vw;   /* sebelumnya 12vw */
+	  font-weight: bold;
+	  color: black;
+	  line-height: 1;
+	}
+	.day-label {
+	  font-family: Arial, sans-serif;
+	  font-size: 6vw;    /* sebelumnya 4vw */
+	  font-weight: bold;
+	  color: black;
+	  margin-top: 1.5vh;
+	}
     .countdown-wrapper {
       display: flex;
       justify-content: center;
