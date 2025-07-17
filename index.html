@@ -10,8 +10,8 @@
     }
     body {
       margin: 0;
-      background-color: black;
-      color: white;
+      background-color: white;
+      color: #065084;
       font-family: Arial, sans-serif;
       overflow: hidden;
     }
@@ -156,8 +156,6 @@
 </head>
 <body>
 <div class="container">
-  <img class="background" id="bg1" src="img1.jpg">
-  <img class="background" id="bg2" src="img2.jpg">
 
   <div class="overlay">
     <div class="top-bar">
@@ -215,25 +213,6 @@
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-  const images = ["img1.jpg", "img2.jpg", "img3.jpg"];
-  let current = 0;
-
-  const bg1 = document.getElementById("bg1");
-  const bg2 = document.getElementById("bg2");
-
-  function fadeToNextImage() {
-    const next = (current + 1) % images.length;
-    bg2.src = images[next];
-    bg2.style.opacity = 1;
-
-    setTimeout(() => {
-      bg1.src = images[next];
-      bg2.style.opacity = 0;
-      current = next;
-    }, 1000);
-  }
-
-  setInterval(fadeToNextImage, 30000);
 </script>
 </body>
 </html>
