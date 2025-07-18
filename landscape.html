@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Go-Live Maestro</title>
+  <style>
+    @font-face {
+      font-family: 'Digital7';
+      src: url('fonts/digital-7.ttf') format('truetype');
+    }
+    body {
+      margin: 0;
+      background-color: white;
+      color: #065084;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    #bg2 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0;
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .logo {
+      width: 100px;
+      height: auto;
+      object-fit: contain;
+    }
+    .top-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .title {
+      text-align: center;
+      margin-top: 0vh;
+    }
+    .title h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 0;
+	  color: #102E50;
+    }
+    .title h2 {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+	  color: #102E50;
+    }
+    .countdown-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .countdown-box {
+      background-color: #FFD700;
+      border-radius: 10px;
+      padding: 20px 10px;
+      text-align: center;
+      min-width: 80px;
+    }
+    .countdown-number {
+      font-family: 'Digital7', monospace;
+      font-size: 48px;
+      font-weight: bold;
+      color: black;
+      line-height: 1;
+    }
+    .countdown-label {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      color: black;
+      margin-top: 8px;
+    }
+    .day-large-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #FFD700;
+      border-radius: 10px;
+      padding: 30px;
+    }
+    .day-number {
+      font-family: 'Digital7', monospace;
+      font-size: 80px;
+      font-weight: bold;
+      color: black;
+      margin-right: 20px;
+    }
+    .day-label {
+      font-family: Arial, sans-serif;
+      font-size: 28px;
+      font-weight: bold;
+      color: black;
+    }
+    .footer {
+      text-align: center;
+      font-size: 18px;
+    }
+
+    @media (max-aspect-ratio: 3/4) {
+      .countdown-wrapper {
+        flex-direction: column;
+      }
+      .day-large-box {
+        flex-direction: column;
+      }
+      .day-number {
+        font-size: 80px;
+        margin: 0;
+      }
+      .day-label {
+        font-size: 18px;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="overlay">
+    <div class="top-bar">
+      <img class="logo" src="logo1.png">
+      <img class="logo" src="logo2.png">
+    </div>
+    <div class="title">
+      <h1>COUNTDOWN</h1>
+      <h2>GO-LIVE MAESTRO</h2>
+    </div>
+    <div id="countdownContainer"></div>
+    <div class="footer">
+      Siap Menjadikan MAESTRO Sebagai Karya Terbaik<br>
+      <b>Just Do It | Make It Happen</b>
+    </div>
+  </div>
+</div>
+
+<script>
+  const targetDate = new Date("2025-08-17T00:00:00").getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    const container = document.getElementById("countdownContainer");
+    container.innerHTML = `
+      <div class="day-large-box">
+        <div class="day-number">${String(days).padStart(2, '0')}</div>
+        <div class="day-label">HARI</div>
+      </div>
+      <div class="countdown-wrapper">
+        ${createCountdownBlock(hours, "JAM")}
+        ${createCountdownBlock(minutes, "MENIT")}
+        ${createCountdownBlock(seconds, "DETIK")}
+      </div>
+    `;
+  }
+
+  function createCountdownBlock(value, label) {
+    return `
+      <div class="countdown-box">
+        <div class="countdown-number">${String(value).padStart(2, '0')}</div>
+        <div class="countdown-label">${label}</div>
+      </div>
+    `;
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+</script>
+</body>
+</html>
