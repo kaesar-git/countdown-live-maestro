@@ -149,55 +149,48 @@
       font-weight: bold;
     }
 
-    /* Portrait Smart TV optimization */
-    @media (orientation: portrait) {
-      .overlay {
-        padding: 2vh 5vw;
-      }
+  @media screen and (max-aspect-ratio: 3/4) {
+  .countdown-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
 
-      .title h1 {
-        font-size: 8vw;
-      }
+  .countdown-box {
+    min-width: 90px;
+    padding: 15px 10px;
+  }
 
-      .title h2 {
-        font-size: 5vw;
-      }
+  .day-large-box {
+    flex-direction: column;
+    padding: 20px;
+  }
 
-      .day-large-box {
-        width: 70vw;
-        padding: 2vh 3vw;
-        margin-bottom: 3vh;
-      }
+  .day-number {
+    font-size: 60px;
+  }
 
-      .day-number {
-        font-size: 22vw;
-      }
+  .day-label {
+    font-size: 20px;
+  }
 
-      .day-label {
-        font-size: 5vw;
-      }
+  .title h1 {
+    font-size: 40px;
+  }
 
-      .countdown-wrapper {
-        gap: 5vw;
-      }
+  .title h2 {
+    font-size: 20px;
+  }
 
-      .countdown-box {
-        min-width: 25vw;
-        padding: 2vh 3vw;
-      }
+  .footer {
+    font-size: 16px;
+  }
 
-      .countdown-number {
-        font-size: 7vw;
-      }
-
-      .countdown-label {
-        font-size: 3vw;
-      }
-
-      .footer {
-        font-size: 2.8vw;
-      }
-    }
+  .top-bar {
+    margin-top: 0px;
+  }
+}
   </style>
 </head>
 <body>
