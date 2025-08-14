@@ -223,7 +223,7 @@
     const hh = String(now.getHours()).padStart(2, '0');
     const mm = String(now.getMinutes()).padStart(2, '0');
     const ss = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById("timeNow").innerHTML = `${dateStr}<br>${hh}:${mm}:${ss}`;
+    document.getElementById("timeNow").innerHTML = `${dateStr} | ${hh}:${mm}:${ss}`;
   }
 
   // Start timers
@@ -234,5 +234,6 @@
 </script>
 </body>
 </html>
+
 
 
