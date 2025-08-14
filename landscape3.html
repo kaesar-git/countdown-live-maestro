@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Countdown Go-Live Maestro</title>
+  <style>
+    @font-face {
+      font-family: 'Digital7';
+      src: url('fonts/digital-7.ttf') format('truetype');
+    }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background: white;
+      color: #065084;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ===== Wrapper kunci landscape ===== */
+    .landscape-lock {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: white;
+      overflow: hidden;
+      transform-origin: 0 0; /* penting untuk rotasi */
+    }
+
+    /* ===== Konten utama (tetap landscape) ===== */
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3vh 4vw;
+      box-sizing: border-box;
+    }
+
+    /* Top bar + logos + time now (center) */
+    .top-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo {
+      width: 18vw;             /* sesuaikan jika butuh */
+      height: auto;
+      object-fit: contain;
+    }
+
+    .time-now {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 2.8vw;        /* ubah ini jika ingin lebih besar/kecil */
+      font-weight: bold;
+      color: #102E50;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+
+    /* Title */
+    .title { text-align: center; margin-top: 0.5vh; }
+    .title h1 {
+      font-size: 6vw;
+      font-weight: 800;
+      margin: 0;
+      color: #102E50;
+    }
+    .title h2 {
+      font-size: 3.2vw;
+      font-weight: 800;
+      margin: 0.5vh 0 0;
+      color: #102E50;
+    }
+
+    /* JAM besar */
+    .countdown-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2vh;
+    }
+
+    .big-box {
+      background-color: #FFD700;
+      border-radius: 20px;
+      padding: 3vh 5vw;
+      text-align: center;
+      width: 38vw;             /* landscape: kotak jam lebih ramping */
+      height: 38vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .big-number {
+      font-family: 'Digital7', monospace;
+      font-size: 20vw;         /* angka jam besar */
+      font-weight: bold;
+      color: black;
+      line-height: 0.9;
+    }
+
+    .big-label {
+      font-size: 3vw;
+      font-weight: bold;
+      color: black;
+      margin-top: 1.2vh;
+    }
+
+    /* MENIT & DETIK */
+    .countdown-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2vw;
+      margin-top: 1vh;
+    }
+
+    .countdown-box {
+      background-color: #FFD700;
+      border-radius: 12px;
+      padding: 2vh 3vw;
+      text-align: center;
+      min-width: 14vw;
+    }
+
+    .countdown-number {
+      font-family: 'Digital7', monospace;
+      font-size: 6vw;
+      font-weight: bold;
+      color: black;
+      line-height: 1;
+    }
+
+    .countdown-label {
+      font-size: 1.8vw;
+      font-weight: bold;
+      color: black;
+      margin-top: 0.8vh;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      font-size: 1.8vw;
+      color: #102E50;
+    }
+    .footer-main { margin-bottom: 0.8vh; }
+    .footer-tagline { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <!-- Wrapper kunci landscape -->
+  <div class="landscape-lock" id="lock">
+    <div class="container">
+      <div class="overlay">
+        <!-- Top bar -->
+        <div class="top-bar">
+          <img class="logo" src="logo1.png" alt="Logo 1">
+          <div class="time-now" id="timeNow"></div>
+          <img class="logo" src="logo2.png" alt="Logo 2">
+        </div>
+
+        <!-- Title -->
+        <div class="title">
+          <h1>COUNTDOWN</h1>
+          <h2>GO-LIVE MAESTRO</h2>
+        </div>
+
+        <!-- Countdown -->
+        <div class="countdown-section" id="countdownContainer"></div>
+
+        <!-- Footer -->
+        <div class="footer">
+          <div class="footer-main">Siap Menjadikan MAESTRO Sebagai Karya Terbaik</div>
+          <div class="footer-tagline"><b>JUST DO IT  |  MAKE IT HAPPEN</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ========= Kunci Landscape Adaptif =========
+       Jika device/TV sedang PORTRAIT, putar 90° agar konten tetap LANDSCAPE.
+       Otomatis memilih arah rotasi yang pas.
+    */
+    const lock = document.getElementById('lock');
+
+    function applyLandscapeLock() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      // Reset
+      lock.style.transform = '';
+      lock.style.width = '100vw';
+      lock.style.height = '100vh';
+
+      if (h > w) {
+        // Device sedang PORTRAIT -> putar menjadi landscape
+        lock.style.width = h + 'px';
+        lock.style.height = w + 'px';
+        lock.style.transformOrigin = 'top left';
+        lock.style.transform = 'rotate(90deg) translateY(-100%)';
+
+        // Heuristik fallback: jika setelah rotasi width < height, coba arah sebaliknya
+        const rect = lock.getBoundingClientRect();
+        if (rect.width < rect.height) {
+          lock.style.transform = 'rotate(-90deg) translateX(-100%)';
+        }
+      }
+    }
+
+    window.addEventListener('resize', applyLandscapeLock);
+    window.addEventListener('orientationchange', applyLandscapeLock);
+    applyLandscapeLock();
+
+    /* ========= Countdown (Jam besar + Menit + Detik) ========= */
+    const targetDate = new Date("2025-08-17T16:25:00").getTime();
+
+    function updateCountdown() {
+      const now = Date.now();
+      const distance = Math.max(targetDate - now, 0);
+
+      const totalHours = Math.floor(distance / (1000 * 60 * 60));
+      const minutes    = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds    = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const container = document.getElementById("countdownContainer");
+      container.innerHTML = `
+        <div class="big-box">
+          <div class="big-number">${String(totalHours).padStart(2,'0')}</div>
+          <div class="big-label">JAM</div>
+        </div>
+        <div class="countdown-wrapper">
+          ${countBlock(minutes, "MENIT")}
+          ${countBlock(seconds, "DETIK")}
+        </div>
+      `;
+    }
+
+    function countBlock(v, label) {
+      return `
+        <div class="countdown-box">
+          <div class="countdown-number">${String(v).padStart(2,'0')}</div>
+          <div class="countdown-label">${label}</div>
+        </div>
+      `;
+    }
+
+    /* ========= Time Now (pakai ":" bukan ".") ========= */
+    function updateTimeNow() {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+      const hh = String(now.getHours()).padStart(2,'0');
+      const mm = String(now.getMinutes()).padStart(2,'0');
+      const ss = String(now.getSeconds()).padStart(2,'0');
+      document.getElementById("timeNow").innerHTML = `${dateStr}<br>${hh}:${mm}:${ss}`;
+    }
+
+    // Start timers
+    updateCountdown();
+    updateTimeNow();
+    setInterval(updateCountdown, 1000);
+    setInterval(updateTimeNow, 1000);
+  </script>
+</body>
+</html>
