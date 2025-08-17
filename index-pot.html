@@ -47,7 +47,6 @@
       align-items: center;
       position: relative;
     }
-    /* Waktu sekarang di tengah */
     .time-now {
       position: absolute;
       left: 50%;
@@ -74,6 +73,7 @@
       margin: 0;
       color: #102E50;
     }
+    .countdown-section { width: 100%; display: flex; flex-direction: column; align-items: center; }
     .big-box {
       background-color: #FFD700;
       border-radius: 20px;
@@ -133,22 +133,19 @@
       font-size: 3vw;
       color: #102E50;
     }
-    .footer-main {
-      margin-bottom: 1vh;
-    }
-    .footer-tagline {
-      font-weight: bold;
-    }
+    .footer-main { margin-bottom: 1vh; }
+    .footer-tagline { font-weight: bold; }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="overlay">
     <div class="top-bar">
-      <img class="logo" src="logo1.png">
+      <img class="logo" src="logo1.png" alt="Logo 1">
       <div class="time-now" id="timeNow"></div>
-      <img class="logo" src="logo2.png">
+      <img class="logo" src="logo2.png" alt="Logo 2">
     </div>
+
     <div class="title">
       <h1>COUNTDOWN</h1>
       <h2>GO-LIVE MAESTRO</h2>
@@ -166,15 +163,43 @@
 <script>
   const targetDate = new Date("2025-08-17T16:25:00").getTime();
 
+  function createCountdownBlock(value, label) {
+    return `
+      <div class="countdown-box">
+        <div class="countdown-number">${String(value).padStart(2, '0')}</div>
+        <div class="countdown-label">${label}</div>
+      </div>
+    `;
+  }
+
   function updateCountdown() {
     const now = new Date().getTime();
     const distance = targetDate - now;
+    const container = document.getElementById("countdownContainer");
+
+    // Jika sudah lewat target → tampilkan 00:00:00 + pesan dan hentikan interval
+    if (distance < 0) {
+      container.innerHTML = `
+        <div class="big-box">
+          <div class="big-number">00</div>
+          <div class="big-label">JAM</div>
+        </div>
+        <div class="countdown-wrapper">
+          ${createCountdownBlock(0, "MENIT")}
+          ${createCountdownBlock(0, "DETIK")}
+        </div>
+        <div style="margin-top:20px; font-size:5vw; font-weight:bold; color:#FF0000;">
+          GO-LIVE SUDAH DIMULAI!
+        </div>
+      `;
+      clearInterval(countdownTimer);
+      return;
+    }
 
     const totalHours = Math.floor(distance / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    const container = document.getElementById("countdownContainer");
     container.innerHTML = `
       <div class="big-box">
         <div class="big-number">${String(totalHours).padStart(2, '0')}</div>
@@ -187,32 +212,20 @@
     `;
   }
 
-  function createCountdownBlock(value, label) {
-    return `
-      <div class="countdown-box">
-        <div class="countdown-number">${String(value).padStart(2, '0')}</div>
-        <div class="countdown-label">${label}</div>
-      </div>
-    `;
+  function updateTimeNow() {
+    const now = new Date();
+    const optionsDate = { day: 'numeric', month: 'long', year: 'numeric' };
+    const dateStr = now.toLocaleDateString('id-ID', optionsDate);
+
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+
+    document.getElementById("timeNow").innerHTML = `${dateStr}<br>${hh}:${mm}:${ss}`;
   }
 
-function updateTimeNow() {
-  const now = new Date();
-  const optionsDate = { day: 'numeric', month: 'long', year: 'numeric' };
-
-  const dateStr = now.toLocaleDateString('id-ID', optionsDate);
-
-  // Format waktu manual supaya pakai :
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-  const timeStr = `${hours}:${minutes}:${seconds}`;
-
-  document.getElementById("timeNow").innerHTML = `${dateStr}<br>${timeStr}`;
-}
-
-  setInterval(updateCountdown, 1000);
-  setInterval(updateTimeNow, 1000);
+  const countdownTimer = setInterval(updateCountdown, 1000);
+  const clockTimer = setInterval(updateTimeNow, 1000);
 
   updateCountdown();
   updateTimeNow();
