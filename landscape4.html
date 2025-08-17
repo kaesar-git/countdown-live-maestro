@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Go-Live Maestro</title>
+  <style>
+    @font-face {
+      font-family: 'Digital7';
+      src: url('fonts/digital-7.ttf') format('truetype');
+    }
+    :root{
+      --brand-blue:#102E50;
+      --tile-bg:#FFD700;
+    }
+    body {
+      margin: 0;
+      background-color: #fff;
+      color: #065084;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    .container { position: relative; width: 100vw; height: 100vh; }
+    .overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+      padding: 20px; box-sizing: border-box;
+    }
+
+    /* TOP BAR */
+    .logo { width: 100px; height: auto; object-fit: contain; }
+    .top-bar {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      margin-top: 10px; position: relative;
+    }
+    .time-now {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      text-align: center; font-size: 22px; font-weight: bold; color: var(--brand-blue);
+      line-height: 1.4; white-space: nowrap;
+    }
+
+    /* TITLE */
+    .title { text-align: center; margin-top: 2vh; }
+    .title h1 { font-size: 48px; font-weight: bold; margin: 0; color: var(--brand-blue); }
+    .title h2 { font-size: 24px; font-weight: bold; margin: 0; color: var(--brand-blue); }
+
+    /* LAYOUT */
+    .countdown-layout {
+      display: flex; flex-direction: row; align-items: center; justify-content: center;
+      gap: 40px; margin-top: 40px; flex-wrap: wrap;
+    }
+
+    /* === TILE SERAGAM UNTUK JAM/MENIT/DETIK === */
+    .tile {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background-color: var(--tile-bg); border-radius: 10px;
+      padding: 30px 50px; min-width: 320px;
+    }
+    .tile-number {
+      font-family: 'Digital7', monospace;
+      font-size: 160px; font-weight: bold; color: #000; line-height: 0.9;
+      margin: 0 0 8px 0;
+    }
+    .tile-label {
+      font-family: Arial, sans-serif;
+      font-size: 32px; font-weight: bold; color: #000;
+    }
+
+    .footer { text-align: center; font-size: 18px; color: var(--brand-blue); }
+    .ended { margin-top: 20px; font-size: 32px; font-weight: bold; color: var(--brand-blue); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="overlay">
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <img class="logo" src="logo1.png" alt="Logo 1">
+      <div class="time-now" id="timeNow"></div>
+      <img class="logo" src="logo2.png" alt="Logo 2">
+    </div>
+
+    <!-- TITLE -->
+    <div class="title">
+      <h1>COUNTDOWN</h1>
+      <h2>GO-LIVE MAESTRO</h2>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="countdown-layout" id="countdownLayout">
+      <div class="tile">
+        <div class="tile-number" id="hourNumber">00</div>
+        <div class="tile-label">JAM</div>
+      </div>
+      <div class="tile" id="minuteTile">
+        <div class="tile-number" id="minuteNumber">00</div>
+        <div class="tile-label">MENIT</div>
+      </div>
+      <div class="tile" id="secondTile">
+        <div class="tile-number" id="secondNumber">00</div>
+        <div class="tile-label">DETIK</div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      Siap Menjadikan MAESTRO Sebagai Karya Terbaik<br>
+      <b>JUST DO IT  |  MAKE IT HAPPEN</b>
+    </div>
+  </div>
+</div>
+
+<script>
+  const targetDate = new Date("2025-08-17T16:25:00").getTime();
+  let countdownTimer;
+
+  function updateCountdown() {
+    const now = Date.now();
+    const distance = targetDate - now;
+
+    const hourEl   = document.getElementById("hourNumber");
+    const minuteEl = document.getElementById("minuteNumber");
+    const secondEl = document.getElementById("secondNumber");
+
+    if (distance <= 0) {
+      hourEl.textContent = "00";
+      minuteEl.textContent = "00";
+      secondEl.textContent = "00";
+
+      // Tampilkan pesan sekali saja
+      const layout = document.getElementById("countdownLayout");
+      if (!document.getElementById("endedMsg")) {
+        const ended = document.createElement("div");
+        ended.id = "endedMsg";
+        ended.className = "ended";
+        ended.textContent = "MAESTRO LIVE!";
+        layout.appendChild(ended);
+      }
+      clearInterval(countdownTimer);
+      return;
+    }
+
+    const totalHours = Math.floor(distance / (1000 * 60 * 60));
+    const minutes    = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds    = Math.floor((distance % (1000 * 60)) / 1000);
+
+    hourEl.textContent   = String(totalHours).padStart(2, '0');
+    minuteEl.textContent = String(minutes).padStart(2, '0');
+    secondEl.textContent = String(seconds).padStart(2, '0');
+  }
+
+  function updateTimeNow() {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById("timeNow").textContent = `${dateStr} | ${hh}:${mm}:${ss}`;
+  }
+
+  countdownTimer = setInterval(updateCountdown, 1000);
+  setInterval(updateTimeNow, 1000);
+  updateCountdown();
+  updateTimeNow();
+</script>
+</body>
+</html>
