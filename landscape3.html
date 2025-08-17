@@ -15,139 +15,48 @@
       font-family: Arial, sans-serif;
       overflow: hidden;
     }
-    .container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
+    .container { width: 100vw; height: 100vh; }
     .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      box-sizing: border-box;
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+      padding: 20px; box-sizing: border-box;
     }
 
     /* TOP BAR */
-    .logo {
-      width: 100px;
-      height: auto;
-      object-fit: contain;
-    }
+    .logo { width: 100px; height: auto; object-fit: contain; }
     .top-bar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 10px;
-      position: relative; /* untuk pusatkan time-now */
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      margin-top: 10px; position: relative;
     }
     .time-now {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      font-size: 30px;     /* besarkan/kecilkan sesuai kebutuhan */
-      font-weight: bold;
-      color: #102E50;
-      line-height: 1.4;
-      white-space: nowrap;
+      position: absolute; left: 50%; transform: translateX(-50%);
+      text-align: center; font-size: 30px; font-weight: bold; color: #102E50;
+      line-height: 1.4; white-space: nowrap;
     }
 
     /* TITLE */
-    .title {
-      text-align: center;
-      margin-top: 1vh; /* sesuai layout asli */
-    }
-    .title h1 {
-      font-size: 48px;
-      font-weight: bold;
-      margin: 0;
-      color: #102E50;
-    }
-    .title h2 {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 0;
-      color: #102E50;
-    }
+    .title { text-align: center; margin-top: 1vh; }
+    .title h1 { font-size: 48px; font-weight: bold; margin: 0; color: #102E50; }
+    .title h2 { font-size: 24px; font-weight: bold; margin: 0; color: #102E50; }
 
-    /* LAYOUT KOTAK (tetap seperti file asli) */
-    .countdown-layout {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-      margin-top: 40px;
-    }
-
-    /* KOTAK BESAR (sebelumnya "HARI", sekarang "JAM") */
+    /* LAYOUT JAM–MENIT–DETIK */
+    .countdown-layout { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 40px; margin-top: 40px; }
     .day-large-box {
-      display: flex;
-      flex-direction: column; /* angka di atas, label di bawah agar mirip index-pot */
-      align-items: center;
-      justify-content: center;
-      background-color: #FFD700;
-      border-radius: 10px;
-      padding: 30px 50px;
-      min-width: 320px; /* agar proporsional untuk angka jam besar */
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background-color: #FFD700; border-radius: 10px; padding: 30px 50px; min-width: 320px;
     }
-    .day-number {
-      font-family: 'Digital7', monospace;
-      font-size: 160px;  /* angka JAM besar */
-      font-weight: bold;
-      color: black;
-      margin: 0 0 8px 0;
-      line-height: 0.9;
-    }
-    .day-label {
-      font-family: Arial, sans-serif;
-      font-size: 32px;
-      font-weight: bold;
-      color: black;
-    }
+    .day-number { font-family: 'Digital7', monospace; font-size: 160px; font-weight: bold; color: black; margin: 0 0 8px 0; line-height: 0.9; }
+    .day-label { font-family: Arial, sans-serif; font-size: 32px; font-weight: bold; color: black; }
 
-    /* KOTAK KECIL (MENIT & DETIK) */
-    .countdown-wrapper {
-      display: flex;
-      flex-direction: row;
-      gap: 30px;
-    }
+    .countdown-wrapper { display: flex; flex-direction: row; gap: 30px; }
     .countdown-box {
-      background-color: #FFD700;
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      min-width: 140px; /* sedikit lebih lebar untuk angka Digital7 */
+      background-color: #FFD700; border-radius: 10px; padding: 20px; text-align: center; min-width: 140px;
     }
-    .countdown-number {
-      font-family: 'Digital7', monospace;
-      font-size: 72px;
-      font-weight: bold;
-      color: black;
-      line-height: 1;
-    }
-    .countdown-label {
-      font-family: Arial, sans-serif;
-      font-size: 18px;
-      font-weight: bold;
-      color: black;
-      margin-top: 8px;
-    }
+    .countdown-number { font-family: 'Digital7', monospace; font-size: 72px; font-weight: bold; color: black; line-height: 1; }
+    .countdown-label { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; color: black; margin-top: 8px; }
 
-    .footer {
-      text-align: center;
-      font-size: 18px;
-      color: #102E50;
-    }
+    .footer { text-align: center; font-size: 18px; color: #102E50; margin-top: 20px; }
+    .ended { margin-top: 20px; font-size: 32px; font-weight: bold; color: red; }
   </style>
 </head>
 <body>
@@ -166,15 +75,13 @@
       <h2>GO-LIVE MAESTRO (MCP#5)</h2>
     </div>
 
-    <!-- LAYOUT: Kiri kotak besar (JAM), kanan dua kotak (MENIT & DETIK) -->
-    <div class="countdown-layout">
+    <!-- LAYOUT -->
+    <div class="countdown-layout" id="countdownLayout">
       <div class="day-large-box">
         <div class="day-number" id="hourNumber">00</div>
         <div class="day-label">JAM</div>
       </div>
-      <div class="countdown-wrapper" id="countdownWrapper">
-        <!-- menit & detik akan dirender via JS -->
-      </div>
+      <div class="countdown-wrapper" id="countdownWrapper"></div>
     </div>
 
     <!-- FOOTER -->
@@ -186,26 +93,8 @@
 </div>
 
 <script>
-  // ===== Target Go-Live (ubah jika perlu) =====
   const targetDate = new Date("2025-08-17T16:25:00").getTime();
-
-  // ===== Update Countdown: JAM (besar) + MENIT + DETIK =====
-  function updateCountdown() {
-    const now = Date.now();
-    const distance = Math.max(targetDate - now, 0);
-
-    const totalHours = Math.floor(distance / (1000 * 60 * 60));
-    const minutes    = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds    = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById("hourNumber").innerText = String(totalHours).padStart(2, '0');
-
-    const wrapper = document.getElementById("countdownWrapper");
-    wrapper.innerHTML = `
-      ${createCountdownBlock(minutes, "MENIT")}
-      ${createCountdownBlock(seconds, "DETIK")}
-    `;
-  }
+  let countdownTimer;
 
   function createCountdownBlock(value, label) {
     return `
@@ -216,7 +105,38 @@
     `;
   }
 
-  // ===== Time Now (pakai ":" bukan ".") =====
+  function updateCountdown() {
+    const now = Date.now();
+    const distance = targetDate - now;
+
+    const hourNumber = document.getElementById("hourNumber");
+    const wrapper = document.getElementById("countdownWrapper");
+
+    if (distance <= 0) {
+      hourNumber.innerText = "00";
+      wrapper.innerHTML = `
+        ${createCountdownBlock(0, "MENIT")}
+        ${createCountdownBlock(0, "DETIK")}
+      `;
+      document.getElementById("countdownLayout").insertAdjacentHTML(
+        "beforeend",
+        `<div class="ended">GO-LIVE SUDAH DIMULAI!</div>`
+      );
+      clearInterval(countdownTimer);
+      return;
+    }
+
+    const totalHours = Math.floor(distance / (1000 * 60 * 60));
+    const minutes    = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds    = Math.floor((distance % (1000 * 60)) / 1000);
+
+    hourNumber.innerText = String(totalHours).padStart(2, '0');
+    wrapper.innerHTML = `
+      ${createCountdownBlock(minutes, "MENIT")}
+      ${createCountdownBlock(seconds, "DETIK")}
+    `;
+  }
+
   function updateTimeNow() {
     const now = new Date();
     const dateStr = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -226,15 +146,11 @@
     document.getElementById("timeNow").innerHTML = `${dateStr} | ${hh}:${mm}:${ss}`;
   }
 
-  // Start timers
+  countdownTimer = setInterval(updateCountdown, 1000);
+  setInterval(updateTimeNow, 1000);
+
   updateCountdown();
   updateTimeNow();
-  setInterval(updateCountdown, 1000);
-  setInterval(updateTimeNow, 1000);
 </script>
 </body>
 </html>
-
-
-
-
